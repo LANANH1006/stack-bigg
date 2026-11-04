@@ -1,0 +1,36 @@
+name: Build Mod
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cài Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      # Không cần gradle wrapper: action tự cài Gradle 8.12
+      - name: Cài Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: 8.12
+
+      - name: Build
+        run: gradle build --no-daemon
+
+      - name: Upload file .jar
+        uses: actions/upload-artifact@v4
+        with:
+          name: stacksizetweaks-jar
+          path: |
+            build/libs/*.jar
+            !build/libs/*-sources.jar
