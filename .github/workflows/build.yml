@@ -21,12 +21,11 @@ jobs:
           gradle-version: 8.12
 
       - name: Build
-        working-directory: stacksizetweaks
         run: gradle build --no-daemon
 
       - uses: actions/upload-artifact@v4
         with:
           name: stacksizetweaks-jar
           path: |
-            stacksizetweaks/build/libs/*.jar
-            !stacksizetweaks/build/libs/*-sources.jar
+            build/libs/*.jar
+            !build/libs/*-sources.jar
