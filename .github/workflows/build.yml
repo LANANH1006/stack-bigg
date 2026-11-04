@@ -11,6 +11,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Giải nén mod
+        run: unzip -q stacksizetweaks.zip
+
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -21,11 +24,12 @@ jobs:
           gradle-version: 8.12
 
       - name: Build
+        working-directory: stacksizetweaks
         run: gradle build --no-daemon
 
       - uses: actions/upload-artifact@v4
         with:
           name: stacksizetweaks-jar
           path: |
-            build/libs/*.jar
-            !build/libs/*-sources.jar
+            stacksizetweaks/build/libs/*.jar
+            !stacksizetweaks/build/libs/*-sources.jar
